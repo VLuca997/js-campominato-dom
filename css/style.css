@@ -1,39 +1,35 @@
-/*
+/* STYLE GRIGLIA*/
+body {
+        background-image: url('../img/madara.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100%;
+}
+.my-grid-container {
+        width: 1000px;
+        margin: 0 auto;
+}
+.my-grid-container > .element {
+width: 10%;
+height: 100px;
+line-height: 100px;
+color: black;
+text-align: center;
+border: 1px solid black;
+background-color: rgba(128, 0, 128, 0.5);
+border-radius: 50%;
+}
 
-        HEADER
+.my-grid-container > .element.revealed {
+background-image: url('../img/976294.png');
+width: 100px;
+height: 100px;
+background-position: center;
+background-size: cover;
+color: transparent;
+}
 
-*/
-
-
-
-
-
-
-
-/*
-
-        MAIN
-
-*/
-
-
-
-
-
-
-
-
-/*
-
-        FOOTER
-
-*/
-
-
-
-
-/*
-
-        DEBUG
-
-*/
+.my-grid-container > .element.bomb {
+background-color: white;
+}

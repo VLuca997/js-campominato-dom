@@ -11,6 +11,8 @@
 
 // variabile flag per indicare la fine del gioco
 let gameOverFlag = false;
+// SCORE
+const scoreElement = document.getElementById('score');
 
 function generateGrid(){
     let numbElement = 100; // numero celle
@@ -20,8 +22,10 @@ function generateGrid(){
     const revealed = []; // array oer le celle non bombe
     let score = 0; // risultato
 
-    containerElements.innerHTML = '';
-    
+    containerElements.innerHTML = ""; // svuotiamo il container della griglia
+    scoreElement.textContent = "Punteggio = 0";// reimposta il punteggio a zero
+    gameOverFlag = false; // reimposta il flag del game over a false
+
     //generiamo la posizione delle bombe in modo causale
     while (bombs.length < bombElement){
         const randomNumber = Math.floor(Math.random() * numbElement) +1;
@@ -31,20 +35,39 @@ function generateGrid(){
     }
 
     for (let index = 1; index <= numbElement; index++){
-        const newElement = document.querySelector('div');
-        newElement.classList.add('element');
-        newElement.textContent = index;
+        const newElement = document.createElement('div');// selezioniamo l'elemento div da sostituire
+        newElement.classList.add('element'); // aggiungiamo la Classe CSS element
+        newElement.textContent = index; // stampiamo il numer ocorretto in ogni element
         newElement.addEventListener('click', function(){
             if(gameOverFlag){
                 return;// se il gioco termina, non puoi piu cliccare nulla
             }
 
             if(bombs.includes(index)){// se la cella è una bomba
-                this.classList.add('bomb');
+                this.classList.add('bomb'); // Aggiungiamo la classe "bomb" all'elemento per evidenziarlo
+                gameOver(); // Chiamiamo la funzione gameOver per terminare il gioco
+                console.log('Mangekyou Sharingan!! ' + index); // Stampiamo un messaggio in console indicando la posizione della bomba
             }
-        })
-    }
+            else if(!revealed.includes(index)){// Se l'elemento non è stato ancora rivelato
+                this.classList.add('revealed');// Aggiungiamo la classe "relealed" all'elemento per evidenziarlo come rivelato
+                revealed.push(index);// Aggiungiamo l'elemento all'array dei rivelati
+                score++;// Incrementiamo il punteggio
+                scoreElement.textContent = "Punteggio: " + score; // Aggiorniamo il punteggio visualizzato nell'HTML
+                console.log("Campo Pulito"); // Stampiamo un messaggio in console indicando che l'elemento è stato rivelato come campo pulito
 
+
+                if (score === numbElement - bombElement){// Se l'utente ha rivelato tutti gli elementi non bomba
+                    gameWon();//win
+                    
+                }
+            }
+        });
+        containerElements.append(newElement);// Aggiungiamo l'elemento al contenitore della griglia
+
+        if (index % 10 === 0){
+            containerElements.append(document.createElement('br')); // Ogni 10 elementi aggiungiamo un elemento <br> per andare a capo
+        }
+    }
 }
 // PERDITA
 function gameOver(){
@@ -52,11 +75,7 @@ function gameOver(){
     alert("Sei finito!")
 }
 // VITTORIA
-function gameWin(){
+function gameWon(){
     gameOverFlag = true;
     alert('Hai Vinto!');
 }
-// SCORE
-const scoreElement = document.getElementById('score');
-
-
